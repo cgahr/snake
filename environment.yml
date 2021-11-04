@@ -1,0 +1,24 @@
+name: snake
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - pip
+  - numpy
+  - isort
+  - mypy
+  - pytest
+  - pylint
+  - pip:
+    - pytest-mock
+    - pytest-env
+    - pytest-cov
+    - coverage
+    - pygame
+    - pre-commit
+    - black
+    - pycodestyle
+    - flake8
+    - flake8-bandit
+    - flake8-bugbear
+    - flake8-comprehensions
