@@ -19,32 +19,12 @@ def _admissible_directions(field: Field) -> set[Direction]:
     }
 
 
-# dict[Field, Direction]
-class Cycle:
+class Cycle(dict[Field, Direction]):
     def __init__(self, fields: tuple[Field, ...], directions: tuple[Direction, ...]):
-        self.__data = {field: direction for field, direction in zip(fields, directions)}
+        super().__init__(
+            {field: direction for field, direction in zip(fields, directions)}
+        )
         self.is_valid_or_raise()
-
-    def __getitem__(self, field: Field):
-        return self.__data[field]
-
-    def __setitem__(self, field: Field, direction):
-        self.__data[field] = direction
-
-    def __iter__(self):
-        return iter(self.__data)
-
-    def __len__(self):
-        return len(self.__data)
-
-    def __str__(self):
-        return str(self.__data)
-
-    def __repr__(self):
-        return repr(self.__data)
-
-    # def copy(self):
-    #     return self.__init__(self.__data.keys(), self.__data.values())
 
     def __add__(self, other):
         if set(other).issubset(self):
@@ -114,7 +94,8 @@ class Cycle:
         raise InvalidCycleError()
 
     def is_valid_or_raise(self):
-        copy = self.__data.copy()
+        # copy = self.__data.copy()
+        copy = self.copy()
 
         for field in self:
             if not isinstance(field, Field):
@@ -146,15 +127,6 @@ class Cycle:
             raise InvalidCycleError(
                 f"it is not possible to reach all fields starting from {start}."
             )
-
-    def keys(self):
-        return self.__data.keys()
-
-    def values(self):
-        return self.__data.values()
-
-    def items(self):
-        return self.__data.items()
 
     def draw(self, surface: pg.Surface):
         for field, direction in self.items():
@@ -191,7 +163,7 @@ class HamiltonianCycle(Cycle):
                 )
                 cycle = cycle + new_cycle
 
-        super().__init__(cycle.keys(), cycle.values())
+        super().__init__(tuple(cycle.keys()), tuple(cycle.values()))
 
     def _fields_from_start_with_directions(
         self, field: Field, directions: tuple[Direction, ...]

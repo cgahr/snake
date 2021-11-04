@@ -95,7 +95,7 @@ def main():
                 # start = time.time()
                 # direction = snake_ai.search_best_direction()
                 # print(f"{1000 * (time.time() - start):.3f}")
-                direction = next(cycle_ai)
+                direction = cycle_ai.next()
                 board.snake.turn(direction)
 
                 board.update()

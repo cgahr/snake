@@ -92,7 +92,7 @@ class Snake(deque):
         pass
 
 
-class Board(dict):
+class Board(dict[Field, Content]):
     apple: Field
     snake: Snake
 
