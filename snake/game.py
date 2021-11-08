@@ -42,6 +42,14 @@ class Field:
     def dist(self, other):
         return abs(self.col - other.col) + abs(self.row - other.row)
 
+    def diff(self, other):
+        if self.dist(other) != 1:
+            raise ValueError(
+                f"the distance between both fields must be 1, it is {self.dist(other)}."
+            )
+
+        return Direction((self.col - other.col, self.row - other.row))
+
     @property
     def rect(self) -> pg.Rect:
         if self._rect is None:
@@ -55,7 +63,7 @@ class Field:
         return self._rect
 
 
-class Snake(deque):
+class Snake(deque[Field]):
     def __init__(self, pos: Field, direction: Direction = Direction.LEFT):
         super().__init__([pos, pos - direction])
         self.direction = direction

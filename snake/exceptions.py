@@ -16,3 +16,7 @@ class NonAdjacentCyclesError(Exception):
 
 class InvalidCycleError(Exception):
     pass
+
+
+class CycleError(Exception):
+    pass

@@ -5,7 +5,7 @@ import time
 import pygame as pg
 
 from .ai import BaseAI, SnakeAI, SnakeAIv2
-from .ai_cycle import SnakeAI as CycleAI
+from .ai_cycle import CycleAI
 from .config import BOARD_SIZE, FRAMES_PER_MOVE, WINSIZE
 from .dtypes import Color, Content, Direction
 from .exceptions import LoseError, WinError
@@ -17,6 +17,7 @@ def find_connected_regions():
 
 
 def draw_board(surface, board):
+    surface.fill(Color.BLACK.value)
     for field, content in board.items():
         if content == Content.EMPTY:
             _ = surface.fill(Color.GREY.value, field.rect)
@@ -92,15 +93,16 @@ def main():
                     if event.type == pg.QUIT:
                         done = True
                         break
-                # start = time.time()
+                start = time.time()
                 # direction = snake_ai.search_best_direction()
-                # print(f"{1000 * (time.time() - start):.3f}")
+                cycle_ai.optimize()
+                print(f"TIME: {1000 * (time.time() - start):.3f}")
                 direction = cycle_ai.next()
                 board.snake.turn(direction)
 
                 board.update()
                 draw_board(screen, board)
-                cycle_ai.cycle.draw(screen)
+                # cycle_ai.cycle.draw(screen)
                 # draw_ai_path(screen, snake_ai)
                 # draw_cycle_ai(screen, cycle_ai)
 
