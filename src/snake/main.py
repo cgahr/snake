@@ -5,7 +5,7 @@ import time
 import pygame as pg
 
 from .ai import BaseAI, SnakeAI, SnakeAIv2
-from .ai_cycle import CycleAI
+from .ai_cycle import CycleAI, SnakeAIv3
 from .config import BOARD_SIZE, FRAMES_PER_MOVE, WINSIZE
 from .dtypes import Color, Content, Direction
 from .exceptions import LoseError, WinError
@@ -57,7 +57,7 @@ def set_text(text, x, y, fontSize):
     return (text, rect)
 
 
-def main():
+def run(wait: bool = False, screenshot: bool = False):
     random.seed()
     clock = pg.time.Clock()
     board = Board(BOARD_SIZE)
@@ -71,8 +71,11 @@ def main():
 
     done = False
     frame_counter = 0
-
+    steps_counter = 0
+    snake_lengths = []
+    # snake_ai = SnakeAI(board)
     # snake_ai = SnakeAIv2(board)
+    # snake_ai = SnakeAIv3(board)
     cycle_ai = CycleAI(board)
 
     try:
@@ -102,12 +105,18 @@ def main():
 
                 board.update()
                 draw_board(screen, board)
-                # cycle_ai.cycle.draw(screen)
+                cycle_ai.cycle.draw(screen)
                 # draw_ai_path(screen, snake_ai)
                 # draw_cycle_ai(screen, cycle_ai)
 
                 pg.display.update()
-            clock.tick(80)
+                if screenshot:
+                    pg.image.save(screen, f"screenshots/img_{steps_counter:05d}.png")
+                steps_counter += 1
+                snake_lengths.append(len(cycle_ai.snake))
+
+            if wait:
+                clock.tick(80)
             frame_counter = (frame_counter + 1) % FRAMES_PER_MOVE
     except LoseError:
         text_with_coords = set_text("You lose!", WINSIZE[0] // 2, WINSIZE[1] // 2, 48)
@@ -120,8 +129,5 @@ def main():
 
     pg.event.set_allowed(pg.QUIT)
     pg.event.set_allowed(pg.KEYUP)
-    _ = pg.event.wait(100000)
-
-
-if __name__ == "__main__":
-    main()
+    # _ = pg.event.wait(100000)
+    return snake_lengths
