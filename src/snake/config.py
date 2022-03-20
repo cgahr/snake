@@ -7,7 +7,7 @@ __all__ = [
     "FRAMES_PER_MOVE",
 ]
 
-BOARD_SIZE: tuple[int, int] = (40, 20)
+BOARD_SIZE: tuple[int, int] = (16, 10)
 FIELD_PX: int = 30
 GAP_PX: int = 5
 BORDER_PX: int = 100
@@ -15,4 +15,4 @@ WINSIZE: tuple[int, int] = tuple(
     map(lambda x: x * FIELD_PX + (x - 1) * GAP_PX + 2 * BORDER_PX, BOARD_SIZE)
 )  # type: ignore
 
-FRAMES_PER_MOVE: int = 1
+FRAMES_PER_MOVE: int = 2

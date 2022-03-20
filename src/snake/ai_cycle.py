@@ -106,7 +106,6 @@ class Cycle(dict[Field, Direction]):
         raise ValueError("idk how you get here, this should not happen")
 
     def is_valid_or_raise(self):
-        # copy = self.__data.copy()
         copy = self.copy()
 
         for field in self:

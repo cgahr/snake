@@ -118,8 +118,6 @@ class Board(dict[Field, Content]):
         self.init_snake()
 
         apple = self.new_apple()
-        # apple = Field(self.shape[0] // 2 + 3, self.shape[1] // 2)
-        # self.apple = apple
         self[apple] = Content.APPLE
 
     def init_snake(self):
