@@ -1,28 +1,123 @@
-[tool.pytest.ini_options]
-addopts = "--cov=snake --cov-report=html --cov-report=term"
-testpaths = [
-    "tests",
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = [ "setuptools"]
+
+[project]
+authors = [
+    {email = "latexplotlib.gvxel@aleeas.com", name = "Constantin Gahr"}
 ]
-# filterwarnings = ignore::DeprecationWarning
+classifiers = [
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent"
+]
+dependencies = [
+    "numpy",
+    "pygame"
+]
+description = "A snake AI that never dies"
+keywords = []
+license = {text = "MIT"}
+name = "snake"
+readme = "README.md"
+requires-python = ">=3.9"
+version = "0.1.0"
+
+[project.optional-dependencies]
+dev = [
+    "ipython",
+    "pylsp-mypy",
+    "python-lsp-server"
+]
+tests = [
+    "coverage",
+    "pytest",
+    "pytest-env",
+    "pytest-cov",
+    "pytest-mock"
+]
+
+
+[tool.coverage.report]
+exclude_lines = ["if TYPE_CHECKING:"]
+
+[tool.coverage.run]
+source = ["src"]
 
 [tool.mypy]
-mypy_path = "snake"
 check_untyped_defs = true
-disallow_any_generics = true
-ignore_missing_imports = true
+enable_error_code = ["ignore-without-code", "redundant-expr", "truthy-bool"]
+exclude = [
+    ".cache",
+    ".git",
+    ".ipynb_checkpoints",
+    "__pycache__",
+    "build",
+    "dist",
+    "examples",
+    "setup*",
+    "tests"
+]
+mypy_path = "src"
 no_implicit_optional = true
-show_error_codes = true
+no_implicit_reexport = true
+strict = true
 strict_equality = true
 warn_redundant_casts = true
 warn_return_any = true
 warn_unreachable = true
 warn_unused_configs = true
-no_implicit_reexport = true
 
-[tool.isort]
-profile = "black"
-multi_line_output = 3
+[[tool.mypy.overrides]]
+ignore_missing_imports = true
+module = [
+    "matplotlib.*"
+]
 
-[tool.pycodestyle]
-max-line-length = 88
-ignore = "E203, W503, E402"
+[tool.pylsp-mypy]
+enabled = true
+exclude = [
+    ".cache",
+    ".git",
+    ".ipynb_checkpoints",
+    "__pycache__",
+    "build",
+    "dist",
+    "examples",
+    "setup*",
+    "tests"
+]
+live_mode = true
+
+[tool.pytest.ini_options]
+addopts = ["--cov", "--cov-report=html", "--cov-report=term", "--strict-config", "--strict-markers", "-ra"]
+filterwarnings = ["error", "default::DeprecationWarning"]
+log_cli_level = "INFO"
+minversion = 7
+testpaths = [
+    "tests"
+]
+xfail_strict = true
+
+[tool.ruff]
+fix = true
+src = ["src"]
+
+[tool.ruff.lint]
+fixable = ["I"]
+ignore = []
+
+[tool.tomlsort]
+all = true
+in_place = true
+spaces_before_inline_comment = 2
+spaces_indent_inline_array = 4
+
+[tool.tomlsort.overrides]
+"project.classifiers".inline_arrays = false
+"tool.pytest.ini_options.filterwarnings".inline_arrays = false
+"tool.ruff.select".inline_arrays = false
